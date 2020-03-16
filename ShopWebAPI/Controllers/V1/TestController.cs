@@ -13,6 +13,7 @@ namespace ShopWebAPI.Controllers.v1
         public TestController()
         {
             _test = new List<Test>();
+
             for (var i = 0; i < 5; i++)
             {
                 _test.Add(new Test { Id = Guid.NewGuid().ToString() });
