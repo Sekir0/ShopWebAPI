@@ -8,5 +8,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ShopWebAPI.BL\ShopWebAPI.BL.csproj" />
+    <ProjectReference Include="..\ShopWebAPI.DAL\ShopWebAPI.DAL.csproj" />
+  </ItemGroup>
+
 
 </Project>
