@@ -7,6 +7,6 @@ namespace ShopWebAPI.Contracts.V1.Responses
 {
     public class ProductResponse
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

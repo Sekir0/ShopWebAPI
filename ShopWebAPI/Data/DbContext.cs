@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopWebAPI.Contracts.V1.Requests
+namespace ShopWebAPI.Data
 {
-    public class CreateProductRequest
+    public class DbContext 
     {
-        public Guid Id { get; set; }
+
     }
 }
