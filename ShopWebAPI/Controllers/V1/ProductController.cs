@@ -55,6 +55,17 @@ namespace ShopWebAPI.Controllers.V1
 
         }
 
+        [HttpDelete(ApiRoutes.Products.Delete)]
+        public IActionResult Delete([FromRoute]Guid productId)
+        {
+            var delete = _productService.DeleteProduct(productId);
+
+            if (delete)
+                return NoContent();
+
+            return NotFound();
+        }
+
         [HttpPost(ApiRoutes.Products.Create)]
         public IActionResult Create([FromBody] CreateProductRequest productRequest)
         {

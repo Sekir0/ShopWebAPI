@@ -20,6 +20,18 @@ namespace ShopWebAPI.BL.Services
             }
         }
 
+        public bool DeleteProduct(Guid productId)
+        {
+            var product = GetProductById(productId);
+
+
+            if (product == null)
+                return false;
+
+            _products.Remove(product);
+            return true;
+        }
+
         public Product GetProductById(Guid productId)
         {
             return _products.SingleOrDefault(x => x.Id == productId);
