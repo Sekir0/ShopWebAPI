@@ -37,6 +37,24 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(product);
         }
 
+        [HttpPut(ApiRoutes.Products.Update)]
+        public IActionResult Update([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
+        {
+            var product = new Product
+            {
+                Id = productId,
+                Name = request.Name
+            };
+
+            var update = _productService.UpdateProduct(product);
+
+            if(update)
+                return Ok(product);
+
+            return NotFound();
+
+        }
+
         [HttpPost(ApiRoutes.Products.Create)]
         public IActionResult Create([FromBody] CreateProductRequest productRequest)
         {

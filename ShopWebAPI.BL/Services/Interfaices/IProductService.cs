@@ -10,5 +10,7 @@ namespace ShopWebAPI.BL.Services.Interfaices
         List<Product> GetProducts();
 
         Product GetProductById(Guid productId);
+
+        bool UpdateProduct(Product updateProduct);
     }
 }

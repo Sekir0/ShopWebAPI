@@ -29,5 +29,17 @@ namespace ShopWebAPI.BL.Services
         {
             return _products;
         }
+
+        public bool UpdateProduct(Product updateProduct)
+        {
+            var exists = GetProductById(updateProduct.Id) != null;
+
+            if (!exists)
+                return false;
+
+            var index = _products.FindIndex(x => x.Id == updateProduct.Id);
+            _products[index] = updateProduct;
+            return true;
+        }
     }
 }

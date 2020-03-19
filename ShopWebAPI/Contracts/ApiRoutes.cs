@@ -16,6 +16,7 @@ namespace ShopWebAPI.Contracts.V1
             public const string GetAll = Base + "/products";
             public const string Create = Base + "/products";
             public const string Get    = Base + "/products/{productId}";
+            public const string Update = Base + "/products/{productId}";
         }
     }
    
