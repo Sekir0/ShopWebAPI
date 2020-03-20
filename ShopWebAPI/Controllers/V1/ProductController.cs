@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShopWebAPI.DAL.Models;
-using ShopWebAPI.Contracts.V1;
-using ShopWebAPI.Contracts.V1.Requests;
-using ShopWebAPI.Contracts.V1.Responses;
-using ShopWebAPI.BL.Services.Interfaices;
+using ShopWebAPI.DAL.Contracts;
+using ShopWebAPI.DAL.Contracts.V1.Requests;
+using ShopWebAPI.DAL.Contracts.V1.Responses;
+using ShopWebAPI.Services.Interfaices;
 
 namespace ShopWebAPI.Controllers.V1
 {
@@ -20,16 +20,16 @@ namespace ShopWebAPI.Controllers.V1
             _productService = productService;
         }
 
-        [HttpGet(ApiRoutes.Products.GetAll)]
-        public IActionResult GetAll()
+        [HttpGet(ApiRoutes.Products.GetAllAsynk)]
+        public async Task<IActionResult> GetAllAsynk()
         {
-            return Ok(_productService.GetProducts());
+            return Ok(await _productService.GetProductsAsynk());
         }
 
-        [HttpGet(ApiRoutes.Products.Get)]
-        public IActionResult Get([FromRoute]Guid productId)
+        [HttpGet(ApiRoutes.Products.GetAsynk)]
+        public async Task<IActionResult> GetAsynk([FromRoute]Guid productId)
         {
-            var product = _productService.GetProductById(productId);
+            var product = await _productService.GetProductByIdAsynk(productId);
 
             if (product == null)
                 return NotFound();
@@ -37,8 +37,8 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(product);
         }
 
-        [HttpPut(ApiRoutes.Products.Update)]
-        public IActionResult Update([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
+        [HttpPut(ApiRoutes.Products.UpdateAsynk)]
+        public async Task<IActionResult> UpdateAsynk([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
         {
             var product = new Product
             {
@@ -46,7 +46,7 @@ namespace ShopWebAPI.Controllers.V1
                 Name = request.Name
             };
 
-            var update = _productService.UpdateProduct(product);
+            var update = await _productService.UpdateProductAsynk(product);
 
             if(update)
                 return Ok(product);
@@ -55,10 +55,10 @@ namespace ShopWebAPI.Controllers.V1
 
         }
 
-        [HttpDelete(ApiRoutes.Products.Delete)]
-        public IActionResult Delete([FromRoute]Guid productId)
+        [HttpDelete(ApiRoutes.Products.DeleteAsynk)]
+        public async Task<IActionResult> Delete([FromRoute]Guid productId)
         {
-            var delete = _productService.DeleteProduct(productId);
+            var delete = await _productService.DeleteProductAsynk(productId);
 
             if (delete)
                 return NoContent();
@@ -66,19 +66,15 @@ namespace ShopWebAPI.Controllers.V1
             return NotFound();
         }
 
-        [HttpPost(ApiRoutes.Products.Create)]
-        public IActionResult Create([FromBody] CreateProductRequest productRequest)
+        [HttpPost(ApiRoutes.Products.CreateAsynk)]
+        public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
         {
-            var product = new Product { Id = productRequest.Id };
+            var product = new Product { Name = productRequest.Name };
 
-            if (string.IsNullOrEmpty(
-                product.Id.ToString()))
-                product.Id = Guid.NewGuid();
-
-            _productService.GetProducts().Add(product);
+            await _productService.CreateProdutAsynk(product);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseUrl + "/" + ApiRoutes.Products.Get.Replace("{postId}", product.Id.ToString());
+            var locationUrl = baseUrl + "/" + ApiRoutes.Products.GetAsynk.Replace("{postId}", product.Id.ToString());
 
             var response = new ProductResponse { Id = product.Id };
             return Created(locationUrl, response);
