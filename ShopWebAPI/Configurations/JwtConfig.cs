@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.Services;
 
 namespace ShopWebAPI.Configurations
 {
@@ -20,6 +22,8 @@ namespace ShopWebAPI.Configurations
 
             configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
+
+            
 
             services.AddAuthentication(x =>
             {

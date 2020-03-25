@@ -19,6 +19,11 @@ namespace ShopWebAPI.DAL.Contracts
             public const string UpdateAsynk = Base + "/products/{productId}";
             public const string DeleteAsynk = Base + "/products/{productId}";
         }
+        public static class Identity
+        {
+            public const string Login = Base + "/identity/login";
+            public const string Register = Base + "/identity/register";
+        }
     }
    
     

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace ShopWebAPI.Configurations
 {
@@ -19,10 +20,11 @@ namespace ShopWebAPI.Configurations
             services.AddDbContext<DataContext>(options =>
               options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddEntityFrameworkStores<DataContext>();
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<DataContext>();
 
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IIdentityService, IdentityService>();
         }
     }
 }
