@@ -22,6 +22,9 @@ namespace ShopWebAPI.Services
             _userManager = userManage;
             _jwtSettings = jwtSettings;
         }
+
+        
+
         public async Task<AuthenticatioResult> RegisterAsynk(string email, string password)
         {
             var existingUser = await _userManager.FindByEmailAsync(email);
@@ -50,8 +53,39 @@ namespace ShopWebAPI.Services
                 };
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            return GenerateAuthResult(newUser);
+        }
 
+        public async Task<AuthenticatioResult> LoginAsynk(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return new AuthenticatioResult
+                {
+                    Errors = new[] { "Email dose not exists" }
+                };
+            }
+
+            var userHasValidPassword = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!userHasValidPassword)
+            {
+                return new AuthenticatioResult
+                {
+                    Errors = new[] { "Email or Password dose not exists" }
+                };
+            }
+
+            return GenerateAuthResult(user);
+
+        }
+
+        private AuthenticatioResult GenerateAuthResult(IdentityUser newUser)
+        {
+
+            var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {

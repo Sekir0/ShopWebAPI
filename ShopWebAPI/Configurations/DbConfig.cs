@@ -4,12 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ShopWebAPI.Data;
 using ShopWebAPI.Services;
 using ShopWebAPI.Services.Interfaices;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using ShopWebAPI.Configurations.Interfaices;
 
 namespace ShopWebAPI.Configurations
 {
