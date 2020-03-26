@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopWebAPI", "ShopWebAPI.csproj", "{95ADCA94-271A-43C2-9B99-B6082FFAB37A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopWebAPI", "ShopWebAPI.csproj", "{95ADCA94-271A-43C2-9B99-B6082FFAB37A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopWebAPI.BL", "..\ShopWebAPI.BL\ShopWebAPI.BL.csproj", "{883A0090-A77F-49C6-82E0-238E1B85775C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopWebAPI.DAL", "..\ShopWebAPI.DAL\ShopWebAPI.DAL.csproj", "{6A2333F5-79D3-44C2-A544-CCB8335F2856}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopWebAPI.DAL", "..\ShopWebAPI.DAL\ShopWebAPI.DAL.csproj", "{6A2333F5-79D3-44C2-A544-CCB8335F2856}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{95ADCA94-271A-43C2-9B99-B6082FFAB37A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95ADCA94-271A-43C2-9B99-B6082FFAB37A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95ADCA94-271A-43C2-9B99-B6082FFAB37A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{883A0090-A77F-49C6-82E0-238E1B85775C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{883A0090-A77F-49C6-82E0-238E1B85775C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{883A0090-A77F-49C6-82E0-238E1B85775C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{883A0090-A77F-49C6-82E0-238E1B85775C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A2333F5-79D3-44C2-A544-CCB8335F2856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A2333F5-79D3-44C2-A544-CCB8335F2856}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2333F5-79D3-44C2-A544-CCB8335F2856}.Release|Any CPU.ActiveCfg = Release|Any CPU

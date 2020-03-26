@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200320133826_AddedProdects.cs" />
-    <Compile Remove="Data\Migrations\20200320133826_AddedProdects.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
@@ -27,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShopWebAPI.BL\ShopWebAPI.BL.csproj" />
     <ProjectReference Include="..\ShopWebAPI.DAL\ShopWebAPI.DAL.csproj" />
   </ItemGroup>
 

@@ -43,7 +43,10 @@ namespace ShopWebAPI.Controllers.V1
             var product = new Product
             {
                 Id = productId,
-                Name = request.Name
+                Name = request.Name,
+                Description = request.Description,
+                Quantity = request.Quantity,
+                Url = request.Url
             };
 
             var update = await _productService.UpdateProductAsynk(product);
@@ -69,7 +72,13 @@ namespace ShopWebAPI.Controllers.V1
         [HttpPost(ApiRoutes.Products.CreateAsynk)]
         public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
         {
-            var product = new Product { Name = productRequest.Name };
+            var product = new Product 
+            { 
+                Name = productRequest.Name,
+                Description = productRequest.Description,
+                Quantity = productRequest.Quantity,
+                Url = productRequest.Url
+            };
 
             await _productService.CreateProdutAsynk(product);
 
