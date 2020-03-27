@@ -53,15 +53,7 @@ namespace ShopWebAPI.Controllers.V1
             product.Description = request.Description;
             product.Quantity = request.Quantity;
             product.Url = request.Url;
-
-            /*var product = new Product
-            {
-                Id = productId,
-                Name = request.Name,
-                Description = request.Description,
-                Quantity = request.Quantity,
-                Url = request.Url
-            };*/
+            product.Price = request.Price;
 
             var update = await _productService.UpdateProductAsynk(product);
 
@@ -98,6 +90,7 @@ namespace ShopWebAPI.Controllers.V1
                 Name = productRequest.Name,
                 Description = productRequest.Description,
                 Quantity = productRequest.Quantity,
+                Price = productRequest.Price,
                 Url = productRequest.Url,
                 UserId = HttpContext.GetUserId()
             };

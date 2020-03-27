@@ -7,15 +7,15 @@ using System.Text;
 
 namespace ShopWebAPI.DAL.Models
 {
-    public class Product
+    public class RefreshToken
     {
         [Key]
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Quantity { get; set; }
-        public double Price { get; set; }
-        public string Url { get; set; }
+        public string Token { get; set; }
+        public string JwtId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public bool Used { get; set; }
+        public bool Invalidated { get; set; }
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

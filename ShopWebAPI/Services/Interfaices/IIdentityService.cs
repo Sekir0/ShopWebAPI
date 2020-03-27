@@ -11,5 +11,9 @@ namespace ShopWebAPI.Services.Interfaices
         Task<AuthenticatioResult> RegisterAsynk(string email, string password);
 
         Task<AuthenticatioResult> LoginAsynk(string email, string password);
+
+        Task<AuthenticatioResult> RefreshTokenAsynk(string token, string refreshtoken);
+
+
     }
 }
