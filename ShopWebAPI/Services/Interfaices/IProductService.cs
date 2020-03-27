@@ -13,5 +13,6 @@ namespace ShopWebAPI.Services.Interfaices
         Task<bool> UpdateProductAsynk(Product updateProduct);
         Task<bool> DeleteProductAsynk(Guid productId);
         Task<bool> CreateProdutAsynk(Product product);
+        Task<bool> UserOwnProductAsynk(Guid productId, string UserId);
     }
 }

@@ -54,5 +54,22 @@ namespace ShopWebAPI.Services
             var update = await _dataContext.SaveChangesAsync();
             return update > 0;
         }
+
+        public async Task<bool> UserOwnProductAsynk(Guid productId, string UserId)
+        {
+            var product = await _dataContext.Products.AsNoTracking().SingleOrDefaultAsync(x => x.Id == productId);
+
+            if(product == null)
+            {
+                return false;
+            }
+
+            if(product.UserId != UserId)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -8,6 +8,7 @@ using ShopWebAPI.DAL.Contracts;
 using ShopWebAPI.DAL.Contracts.V1.Requests;
 using ShopWebAPI.DAL.Contracts.V1.Responses;
 using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.Extensions;
 
 namespace ShopWebAPI.Controllers.V1
 {
@@ -40,14 +41,27 @@ namespace ShopWebAPI.Controllers.V1
         [HttpPut(ApiRoutes.Products.UpdateAsynk)]
         public async Task<IActionResult> UpdateAsynk([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
         {
-            var product = new Product
+            var userOwnProduct = await _productService.UserOwnProductAsynk(productId, HttpContext.GetUserId());
+
+            if (!userOwnProduct)
+            {
+                return BadRequest(new { error = "You do not have access to this product." });
+            }
+
+            var product = await _productService.GetProductByIdAsynk(productId);
+            product.Name = request.Name;
+            product.Description = request.Description;
+            product.Quantity = request.Quantity;
+            product.Url = request.Url;
+
+            /*var product = new Product
             {
                 Id = productId,
                 Name = request.Name,
                 Description = request.Description,
                 Quantity = request.Quantity,
                 Url = request.Url
-            };
+            };*/
 
             var update = await _productService.UpdateProductAsynk(product);
 
@@ -61,6 +75,13 @@ namespace ShopWebAPI.Controllers.V1
         [HttpDelete(ApiRoutes.Products.DeleteAsynk)]
         public async Task<IActionResult> Delete([FromRoute]Guid productId)
         {
+            var userOwnProduct = await _productService.UserOwnProductAsynk(productId, HttpContext.GetUserId());
+
+            if (!userOwnProduct)
+            {
+                return BadRequest(new { error = "You do not have access to this product." });
+            }
+
             var delete = await _productService.DeleteProductAsynk(productId);
 
             if (delete)
@@ -72,12 +93,13 @@ namespace ShopWebAPI.Controllers.V1
         [HttpPost(ApiRoutes.Products.CreateAsynk)]
         public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
         {
-            var product = new Product 
-            { 
+            var product = new Product
+            {
                 Name = productRequest.Name,
                 Description = productRequest.Description,
                 Quantity = productRequest.Quantity,
-                Url = productRequest.Url
+                Url = productRequest.Url,
+                UserId = HttpContext.GetUserId()
             };
 
             await _productService.CreateProdutAsynk(product);
