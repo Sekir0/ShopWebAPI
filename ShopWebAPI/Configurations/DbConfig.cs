@@ -17,6 +17,7 @@ namespace ShopWebAPI.Configurations
               options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddScoped<IProductService, ProductService>();

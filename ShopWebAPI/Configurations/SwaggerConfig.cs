@@ -11,6 +11,7 @@ namespace ShopWebAPI.Configurations
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
+            services.AddAuthorization();
 
             services.AddSwaggerGen(x =>
             {

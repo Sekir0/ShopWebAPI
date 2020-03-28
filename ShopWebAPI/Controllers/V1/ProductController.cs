@@ -9,9 +9,12 @@ using ShopWebAPI.DAL.Contracts.V1.Requests;
 using ShopWebAPI.DAL.Contracts.V1.Responses;
 using ShopWebAPI.Services.Interfaices;
 using ShopWebAPI.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ShopWebAPI.Controllers.V1
 {
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -38,6 +41,7 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut(ApiRoutes.Products.UpdateAsynk)]
         public async Task<IActionResult> UpdateAsynk([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
         {
@@ -64,6 +68,7 @@ namespace ShopWebAPI.Controllers.V1
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete(ApiRoutes.Products.DeleteAsynk)]
         public async Task<IActionResult> Delete([FromRoute]Guid productId)
         {
@@ -82,6 +87,7 @@ namespace ShopWebAPI.Controllers.V1
             return NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost(ApiRoutes.Products.CreateAsynk)]
         public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
         {

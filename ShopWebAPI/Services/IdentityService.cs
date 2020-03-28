@@ -11,6 +11,7 @@ using System.Text;
 using ShopWebAPI.DAL.Options;
 using ShopWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ShopWebAPI.Services
 {
@@ -20,14 +21,17 @@ namespace ShopWebAPI.Services
         private readonly JwtSettings _jwtSettings;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly DataContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public IdentityService(UserManager<IdentityUser> userManage, JwtSettings jwtSettings,
-            TokenValidationParameters tokenValidationParameters, DataContext context)
+            TokenValidationParameters tokenValidationParameters, DataContext context,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManage;
             _jwtSettings = jwtSettings;
             _tokenValidationParameters = tokenValidationParameters;
             _context = context;
+            _roleManager = roleManager;
         }
 
         
@@ -95,17 +99,40 @@ namespace ShopWebAPI.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
 
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, newUser.Email),
+                new Claim("id", newUser.Id)
+            };
+
+            var userClaims = await _userManager.GetClaimsAsync(newUser);
+            claims.AddRange(userClaims);
+
+            var userRoles = await _userManager.GetRolesAsync(newUser);
+            foreach (var userRole in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+                var role = await _roleManager.FindByNameAsync(userRole);
+                if (role == null) continue;
+                var roleClaims = await _roleManager.GetClaimsAsync(role);
+
+                foreach (var roleClaim in roleClaims)
+                {
+                    if (claims.Contains(roleClaim))
+                        continue;
+
+                    claims.Add(roleClaim);
+                }
+            }
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, newUser.Email),
-                    new Claim("id", newUser.Id)
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials =
+                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
