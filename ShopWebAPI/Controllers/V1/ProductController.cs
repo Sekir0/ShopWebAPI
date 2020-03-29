@@ -24,10 +24,22 @@ namespace ShopWebAPI.Controllers.V1
             _productService = productService;
         }
 
+        
         [HttpGet(ApiRoutes.Products.GetAllAsynk)]
         public async Task<IActionResult> GetAllAsynk()
         {
-            return Ok(await _productService.GetProductsAsynk());
+            var products = await _productService.GetProductsAsynk();
+            var productResponse = products.Select(product => new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Quantity = product.Quantity,
+                Price = product.Price,
+                Url = product.Url,
+                UserId = product.UserId
+            });
+            return Ok(productResponse);
         }
 
         [HttpGet(ApiRoutes.Products.GetAsynk)]
@@ -38,10 +50,20 @@ namespace ShopWebAPI.Controllers.V1
             if (product == null)
                 return NotFound();
 
-            return Ok(product);
+            return Ok(new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Quantity = product.Quantity,
+                Price = product.Price,
+                Url = product.Url,
+                UserId = product.UserId
+            });
         }
 
         [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPut(ApiRoutes.Products.UpdateAsynk)]
         public async Task<IActionResult> UpdateAsynk([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
         {
@@ -62,13 +84,23 @@ namespace ShopWebAPI.Controllers.V1
             var update = await _productService.UpdateProductAsynk(product);
 
             if(update)
-                return Ok(product);
+                return Ok(new ProductResponse
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Quantity = product.Quantity,
+                    Price = product.Price,
+                    Url = product.Url,
+                    UserId = product.UserId
+                });
 
             return NotFound();
 
         }
 
         [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MustWorkForAdmin")]
         [HttpDelete(ApiRoutes.Products.DeleteAsynk)]
         public async Task<IActionResult> Delete([FromRoute]Guid productId)
         {
@@ -88,6 +120,7 @@ namespace ShopWebAPI.Controllers.V1
         }
 
         [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPost(ApiRoutes.Products.CreateAsynk)]
         public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
         {
@@ -106,7 +139,16 @@ namespace ShopWebAPI.Controllers.V1
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUrl = baseUrl + "/" + ApiRoutes.Products.GetAsynk.Replace("{postId}", product.Id.ToString());
 
-            var response = new ProductResponse { Id = product.Id };
+            var response = new ProductResponse 
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Quantity = product.Quantity,
+                Price = product.Price,
+                Url = product.Url,
+                UserId = product.UserId
+            };
             return Created(locationUrl, response);
         }  
     }

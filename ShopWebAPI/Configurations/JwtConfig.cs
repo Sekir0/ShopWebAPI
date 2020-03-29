@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ShopWebAPI.Configurations.Interfaices;
+using ShopWebAPI.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShopWebAPI.Configurations
 {
@@ -12,6 +14,15 @@ namespace ShopWebAPI.Configurations
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("MustWorkForAdmin", policy =>
+                {
+                    policy.AddRequirements(new WorksForCompanyRequirement(/*DomainName*/"sekiro.com"));
+                });
+            });
+            services.AddSingleton<IAuthorizationHandler, WorksForCompanyHandler>();
+
             var jwtSettings = new JwtSettings();
 
             configuration.Bind(nameof(jwtSettings), jwtSettings);

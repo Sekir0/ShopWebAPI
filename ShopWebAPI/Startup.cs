@@ -14,6 +14,7 @@ using ShopWebAPI.DAL.Options;
 using Microsoft.OpenApi.Models;
 using SwaggerOptions = ShopWebAPI.DAL.Options.SwaggerOptions;
 using ShopWebAPI.Configurations;
+using AutoMapper;
 
 namespace ShopWebAPI
 {
@@ -29,6 +30,7 @@ namespace ShopWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallServicesInAssembly(Configuration);
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
