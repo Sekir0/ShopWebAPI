@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ShopWebAPI.DAL.Models
+namespace ShopWebAPI.DAL.Domain
 {
     public class RefreshToken
     {

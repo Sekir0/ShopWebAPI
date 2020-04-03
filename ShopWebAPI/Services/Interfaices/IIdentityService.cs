@@ -1,4 +1,4 @@
-﻿using ShopWebAPI.DAL.Models;
+﻿using ShopWebAPI.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,5 @@ namespace ShopWebAPI.Services.Interfaices
         Task<AuthenticatioResult> LoginAsynk(string email, string password);
 
         Task<AuthenticatioResult> RefreshTokenAsynk(string token, string refreshtoken);
-
-
     }
 }

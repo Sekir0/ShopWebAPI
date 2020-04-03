@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ShopWebAPI.DAL.Models
+namespace ShopWebAPI.DAL.Domain
 {
     public class Product
     {
@@ -20,5 +20,6 @@ namespace ShopWebAPI.DAL.Models
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; }
+        public virtual List<ProductCategory> Categorys { get; set; }
     }
 }

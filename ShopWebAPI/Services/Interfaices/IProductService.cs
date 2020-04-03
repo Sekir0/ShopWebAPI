@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ShopWebAPI.DAL.Models;
+using ShopWebAPI.DAL.Domain;
 
 namespace ShopWebAPI.Services.Interfaices
 {
@@ -14,5 +14,11 @@ namespace ShopWebAPI.Services.Interfaices
         Task<bool> DeleteProductAsynk(Guid productId);
         Task<bool> CreateProdutAsynk(Product product);
         Task<bool> UserOwnProductAsynk(Guid productId, string UserId);
+
+
+        Task<List<Category>> GetAllCategorysAsynk();
+        Task<bool> CreateCategoryAsynk(Category category);
+        Task<Category> GetCategoryByNameAsynk(string categoryName);
+        //Task<bool> DeleteCategory(string categoryName);
     }
 }

@@ -13,17 +13,24 @@ namespace ShopWebAPI.DAL.Contracts
 
         public static class Products
         {
-            public const string GetAllAsynk = Base + "/products";
-            public const string CreateAsynk = Base + "/products";
-            public const string GetAsynk    = Base + "/products/{productId}";
-            public const string UpdateAsynk = Base + "/products/{productId}";
-            public const string DeleteAsynk = Base + "/products/{productId}";
+            public const string GetAll  = Base + "/products";
+            public const string Create  = Base + "/products";
+            public const string GetById = Base + "/products/{productId}";
+            public const string Update  = Base + "/products/{productId}";
+            public const string Delete  = Base + "/products/{productId}";
         }
         public static class Identity
         {
-            public const string Login           = Base + "/identity/login";
-            public const string Register        = Base + "/identity/register";
-            public const string RefreshToken    = Base + "/identity/refresh";
+            public const string Login        = Base + "/identity/login";
+            public const string Register     = Base + "/identity/register";
+            public const string RefreshToken = Base + "/identity/refresh";
+        }
+        public static class Categorys
+        {
+            public const string GetAll    = Base + "/categorys";
+            public const string Create    = Base + "/categorys";
+            public const string GetByName = Base + "/categorys/{categoryName}";
+            public const string Delete    = Base + "/categorys/{categorysId}";
         }
     }
    

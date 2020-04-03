@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShopWebAPI.DAL.Models;
+using ShopWebAPI.DAL.Domain;
 using ShopWebAPI.DAL.Contracts;
 using ShopWebAPI.DAL.Contracts.V1.Requests;
 using ShopWebAPI.DAL.Contracts.V1.Responses;
@@ -25,7 +25,7 @@ namespace ShopWebAPI.Controllers.V1
         }
 
         
-        [HttpGet(ApiRoutes.Products.GetAllAsynk)]
+        [HttpGet(ApiRoutes.Products.GetAll)]
         public async Task<IActionResult> GetAllAsynk()
         {
             var products = await _productService.GetProductsAsynk();
@@ -42,7 +42,7 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(productResponse);
         }
 
-        [HttpGet(ApiRoutes.Products.GetAsynk)]
+        [HttpGet(ApiRoutes.Products.GetById)]
         public async Task<IActionResult> GetAsynk([FromRoute]Guid productId)
         {
             var product = await _productService.GetProductByIdAsynk(productId);
@@ -64,7 +64,7 @@ namespace ShopWebAPI.Controllers.V1
 
         [Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
-        [HttpPut(ApiRoutes.Products.UpdateAsynk)]
+        [HttpPut(ApiRoutes.Products.Update)]
         public async Task<IActionResult> UpdateAsynk([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
         {
             var userOwnProduct = await _productService.UserOwnProductAsynk(productId, HttpContext.GetUserId());
@@ -101,7 +101,7 @@ namespace ShopWebAPI.Controllers.V1
 
         [Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
-        [HttpDelete(ApiRoutes.Products.DeleteAsynk)]
+        [HttpDelete(ApiRoutes.Products.Delete)]
         public async Task<IActionResult> Delete([FromRoute]Guid productId)
         {
             var userOwnProduct = await _productService.UserOwnProductAsynk(productId, HttpContext.GetUserId());
@@ -121,23 +121,26 @@ namespace ShopWebAPI.Controllers.V1
 
         [Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
-        [HttpPost(ApiRoutes.Products.CreateAsynk)]
+        [HttpPost(ApiRoutes.Products.Create)]
         public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
         {
+            var newProductId = Guid.NewGuid();
             var product = new Product
             {
+                Id = newProductId,
                 Name = productRequest.Name,
                 Description = productRequest.Description,
                 Quantity = productRequest.Quantity,
                 Price = productRequest.Price,
                 Url = productRequest.Url,
-                UserId = HttpContext.GetUserId()
+                UserId = HttpContext.GetUserId(),
+                Categorys = productRequest.Categorys.Select(x => new ProductCategory { ProductId = newProductId, CategoryName = x }).ToList()
             };
 
             await _productService.CreateProdutAsynk(product);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseUrl + "/" + ApiRoutes.Products.GetAsynk.Replace("{postId}", product.Id.ToString());
+            var locationUrl = baseUrl + "/" + ApiRoutes.Products.GetById.Replace("{postId}", product.Id.ToString());
 
             var response = new ProductResponse 
             {

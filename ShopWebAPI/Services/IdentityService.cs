@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ShopWebAPI.DAL.Models;
+using ShopWebAPI.DAL.Domain;
 using ShopWebAPI.Services.Interfaices;
 using System;
 using System.IdentityModel.Tokens.Jwt;

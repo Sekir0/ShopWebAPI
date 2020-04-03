@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShopWebAPI.DAL.Models
+namespace ShopWebAPI.DAL.Domain
 {
     public class AuthenticatioResult
     {

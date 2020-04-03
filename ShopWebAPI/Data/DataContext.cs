@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ShopWebAPI.DAL.Models;
+using ShopWebAPI.DAL.Domain;
 
 namespace ShopWebAPI.Data
 {
@@ -16,5 +16,14 @@ namespace ShopWebAPI.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ProductCategory>().Ignore(xx => xx.Product).HasKey(x => new { x.ProductId, x.CategoryName });
+        }
+
     }
 }
