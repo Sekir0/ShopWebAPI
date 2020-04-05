@@ -11,6 +11,7 @@ using ShopWebAPI.Services.Interfaices;
 using ShopWebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ShopWebAPI.DAL.Contracts.V1.Responses.Categorys;
 
 namespace ShopWebAPI.Controllers.V1
 {
@@ -37,7 +38,8 @@ namespace ShopWebAPI.Controllers.V1
                 Quantity = product.Quantity,
                 Price = product.Price,
                 Url = product.Url,
-                UserId = product.UserId
+                UserId = product.UserId,
+                Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
             });
             return Ok(productResponse);
         }
@@ -58,7 +60,8 @@ namespace ShopWebAPI.Controllers.V1
                 Quantity = product.Quantity,
                 Price = product.Price,
                 Url = product.Url,
-                UserId = product.UserId
+                UserId = product.UserId,
+                Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
             });
         }
 
@@ -84,7 +87,7 @@ namespace ShopWebAPI.Controllers.V1
             var update = await _productService.UpdateProductAsynk(product);
 
             if(update)
-                return Ok(new ProductResponse
+                return Ok(new  ProductResponse
                 {
                     Id = product.Id,
                     Name = product.Name,
@@ -92,7 +95,8 @@ namespace ShopWebAPI.Controllers.V1
                     Quantity = product.Quantity,
                     Price = product.Price,
                     Url = product.Url,
-                    UserId = product.UserId
+                    UserId = product.UserId,
+                    Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
                 });
 
             return NotFound();
@@ -150,7 +154,8 @@ namespace ShopWebAPI.Controllers.V1
                 Quantity = product.Quantity,
                 Price = product.Price,
                 Url = product.Url,
-                UserId = product.UserId
+                UserId = product.UserId,
+                Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
             };
             return Created(locationUrl, response);
         }  

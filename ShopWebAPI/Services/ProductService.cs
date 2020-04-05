@@ -100,19 +100,19 @@ namespace ShopWebAPI.Services
             return await _dataContext.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Name == categoryName.ToLower());
         }
 
-        /*public async Task<bool> DeleteCategory(string categoryName)
+        public async Task<bool> DeleteCategory(string categoryName)
         {
             var catgory = await _dataContext.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Name == categoryName.ToLower());
 
             if (catgory == null)
                 return true;
 
-            var productCategorys = _dataContext.ProductCategories.Where(x => x.CategoryName == categoryName.ToLower()).ToListAsync();
+            var productCategorys = await _dataContext.ProductCategories.Where(x => x.CategoryName == categoryName.ToLower()).ToListAsync();
 
             _dataContext.ProductCategories.RemoveRange(productCategorys);
             _dataContext.Categories.Remove(catgory);
             return await _dataContext.SaveChangesAsync() > productCategorys.Count;
-        }*/
+        }
 
         private async Task AddNewCategory(Product product)
         {
@@ -124,7 +124,7 @@ namespace ShopWebAPI.Services
                     continue;
 
                 await _dataContext.Categories.AddAsync(new Category
-                { Name = category.CategoryName, CreatedOn = DateTime.UtcNow, CreatorId = product.UserId });
+                { Name = category.CategoryName, CreatedOn = DateTime.UtcNow, CreatorId = product.UserId});
             }
         }
     }

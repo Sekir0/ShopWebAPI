@@ -19,6 +19,6 @@ namespace ShopWebAPI.Services.Interfaices
         Task<List<Category>> GetAllCategorysAsynk();
         Task<bool> CreateCategoryAsynk(Category category);
         Task<Category> GetCategoryByNameAsynk(string categoryName);
-        //Task<bool> DeleteCategory(string categoryName);
+        Task<bool> DeleteCategory(string categoryName);
     }
 }

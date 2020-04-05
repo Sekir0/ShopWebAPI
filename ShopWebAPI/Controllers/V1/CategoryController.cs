@@ -57,5 +57,15 @@ namespace ShopWebAPI.Controllers.V1
             return Created(locationUrl, newCategory);
         }
 
+        [HttpDelete(ApiRoutes.Categorys.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] string categoryName)
+        {
+            var deleted = await _productService.DeleteCategory(categoryName);
+
+            if (deleted)
+                return NoContent();
+
+            return NotFound();
+        }
     }
 }
