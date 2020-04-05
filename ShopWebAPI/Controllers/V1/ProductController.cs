@@ -12,6 +12,7 @@ using ShopWebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ShopWebAPI.DAL.Contracts.V1.Responses.Categorys;
+using AutoMapper;
 
 namespace ShopWebAPI.Controllers.V1
 {
@@ -19,10 +20,12 @@ namespace ShopWebAPI.Controllers.V1
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
         
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         
@@ -30,18 +33,7 @@ namespace ShopWebAPI.Controllers.V1
         public async Task<IActionResult> GetAllAsynk()
         {
             var products = await _productService.GetProductsAsynk();
-            var productResponse = products.Select(product => new ProductResponse
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Quantity = product.Quantity,
-                Price = product.Price,
-                Url = product.Url,
-                UserId = product.UserId,
-                Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
-            });
-            return Ok(productResponse);
+            return Ok(_mapper.Map<List<ProductResponse>>(products));
         }
 
         [HttpGet(ApiRoutes.Products.GetById)]
@@ -52,17 +44,7 @@ namespace ShopWebAPI.Controllers.V1
             if (product == null)
                 return NotFound();
 
-            return Ok(new ProductResponse
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Quantity = product.Quantity,
-                Price = product.Price,
-                Url = product.Url,
-                UserId = product.UserId,
-                Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
-            });
+            return Ok(_mapper.Map<ProductResponse>(product));
         }
 
         [Authorize(Roles = "Admin")]
@@ -87,17 +69,7 @@ namespace ShopWebAPI.Controllers.V1
             var update = await _productService.UpdateProductAsynk(product);
 
             if(update)
-                return Ok(new  ProductResponse
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Quantity = product.Quantity,
-                    Price = product.Price,
-                    Url = product.Url,
-                    UserId = product.UserId,
-                    Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
-                });
+                return Ok(_mapper.Map<ProductResponse>(product));
 
             return NotFound();
 
@@ -146,18 +118,7 @@ namespace ShopWebAPI.Controllers.V1
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUrl = baseUrl + "/" + ApiRoutes.Products.GetById.Replace("{postId}", product.Id.ToString());
 
-            var response = new ProductResponse 
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Quantity = product.Quantity,
-                Price = product.Price,
-                Url = product.Url,
-                UserId = product.UserId,
-                Categorys = product.Categorys.Select(x => new CategoryResponse { Name = x.CategoryName }).ToList()
-            };
-            return Created(locationUrl, response);
+            return Created(locationUrl, _mapper.Map<ProductResponse>(product));
         }  
     }
 }

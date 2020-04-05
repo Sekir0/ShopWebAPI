@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopWebAPI.DAL.Contracts;
 using ShopWebAPI.DAL.Contracts.V1.Requests.Categorys;
+using ShopWebAPI.DAL.Contracts.V1.Responses.Categorys;
 using ShopWebAPI.DAL.Domain;
 using ShopWebAPI.Extensions;
 using ShopWebAPI.Services.Interfaices;
@@ -14,16 +17,19 @@ namespace ShopWebAPI.Controllers.V1
     public class CategoryController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public CategoryController(IProductService productService)
+        public CategoryController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         [HttpGet(ApiRoutes.Categorys.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _productService.GetAllCategorysAsynk());
+            var categorys = await _productService.GetAllCategorysAsynk();
+            return Ok(_mapper.Map<List<CategoryResponse>>(categorys));
         }
 
         [HttpGet(ApiRoutes.Categorys.GetByName)]
@@ -35,9 +41,11 @@ namespace ShopWebAPI.Controllers.V1
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(_mapper.Map<CategoryResponse>(category));
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPost(ApiRoutes.Categorys.Create)]
         public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
         {
@@ -54,9 +62,11 @@ namespace ShopWebAPI.Controllers.V1
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUrl = baseUrl + "/" + ApiRoutes.Categorys.GetByName.Replace("{categoryName}", newCategory.Name);
-            return Created(locationUrl, newCategory);
+            return Created(locationUrl, _mapper.Map<CategoryResponse>(newCategory));
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MustWorkForAdmin")]
         [HttpDelete(ApiRoutes.Categorys.Delete)]
         public async Task<IActionResult> Delete([FromRoute] string categoryName)
         {
