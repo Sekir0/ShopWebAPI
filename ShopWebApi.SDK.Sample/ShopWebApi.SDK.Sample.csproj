@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShopWebApi.Contracts\ShopWebApi.Contracts.csproj" />
+    <ProjectReference Include="..\ShopWebApi.SDK\ShopWebApi.SDK.csproj" />
+  </ItemGroup>
+
+</Project>
