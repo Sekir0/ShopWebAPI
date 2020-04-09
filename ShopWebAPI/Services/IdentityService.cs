@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ShopWebAPI.DAL.Domain;
-using ShopWebAPI.Services.Interfaices;
-using System;
+﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using ShopWebAPI.DAL.Options;
 using ShopWebAPI.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using ShopWebAPI.DAL.Domain;
+using ShopWebAPI.Services.Interfaices;
 
 namespace ShopWebAPI.Services
 {

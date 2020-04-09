@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ShopWebAPI.DAL.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using ShopWebAPI.DAL.Options;
 using ShopWebAPI.Configurations.Interfaices;
 using ShopWebAPI.Authorization;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ShopWebAPI.Configurations
 {

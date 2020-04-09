@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using ShopWebAPI.Data;
 using ShopWebAPI.Services;
 using ShopWebAPI.Services.Interfaices;
-using Microsoft.AspNetCore.Identity;
 using ShopWebAPI.Configurations.Interfaices;
 
 namespace ShopWebAPI.Configurations

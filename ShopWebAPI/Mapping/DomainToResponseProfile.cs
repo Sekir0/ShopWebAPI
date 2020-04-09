@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using ShopWebAPI.DAL.Contracts.V1.Responses;
-using ShopWebAPI.DAL.Contracts.V1.Responses.Categorys;
+﻿using System.Linq;
+using AutoMapper;
+using ShopWebAPI.Contracts.V1.Responses;
+using ShopWebAPI.Contracts.V1.Responses.Categorys;
 using ShopWebAPI.DAL.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShopWebAPI.Mapping
 {

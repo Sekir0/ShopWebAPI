@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShopWebAPI.DAL.Domain;
-using ShopWebAPI.DAL.Contracts;
-using ShopWebAPI.DAL.Contracts.V1.Requests;
-using ShopWebAPI.DAL.Contracts.V1.Responses;
-using ShopWebAPI.Services.Interfaices;
-using ShopWebAPI.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ShopWebAPI.DAL.Contracts.V1.Responses.Categorys;
+using ShopWebAPI.DAL.Domain;
+using ShopWebAPI.Contracts;
+using ShopWebAPI.Contracts.V1.Requests;
+using ShopWebAPI.Contracts.V1.Responses;
+using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.Extensions;
 using AutoMapper;
 
 namespace ShopWebAPI.Controllers.V1
