@@ -28,16 +28,17 @@ namespace ShopWebAPI.Controllers.V1
             _mapper = mapper;
         }
 
-        [CachedAtribute(600)]
+        
         [HttpGet(ApiRoutes.Products.GetAll)]
+        //[Cached(600)]
         public async Task<IActionResult> GetAllAsynk()
         {
             var products = await _productService.GetProductsAsynk();
             return Ok(_mapper.Map<List<ProductResponse>>(products));
         }
 
-        [CachedAtribute(600)]
         [HttpGet(ApiRoutes.Products.GetById)]
+        //[Cached(600)]
         public async Task<IActionResult> GetAsynk([FromRoute]Guid productId)
         {
             var product = await _productService.GetProductByIdAsynk(productId);

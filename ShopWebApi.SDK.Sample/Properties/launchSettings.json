@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ShopWebApi.SDK.Sample": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

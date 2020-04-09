@@ -27,7 +27,7 @@ namespace ShopWebAPI.Contracts
             public const string GetAll    = Base + "/categorys";
             public const string Create    = Base + "/categorys";
             public const string GetByName = Base + "/categorys/{categoryName}";
-            public const string Delete    = Base + "/categorys/{categorysId}";
+            public const string Delete    = Base + "/categorys/{categoryName}";
         }
     }
    

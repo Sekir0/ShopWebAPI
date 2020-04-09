@@ -12,11 +12,11 @@ using ShopWebAPI.Services;
 namespace ShopWebAPI.Cache
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class CachedAtribute : Attribute, IAsyncActionFilter
+    public class CachedAttribute : Attribute, IAsyncActionFilter
     {
         private readonly int _timeToLiveSeconds;
 
-        public CachedAtribute(int timeToLiveSeconds)
+        public CachedAttribute(int timeToLiveSeconds)
         {
             _timeToLiveSeconds = timeToLiveSeconds;
         }
@@ -34,7 +34,7 @@ namespace ShopWebAPI.Cache
             var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
 
             var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
-            var cachedResponse = await cacheService.GetCacheResponseAsynk(cacheKey);
+            var cachedResponse = await cacheService.GetCachedResponseAsync(cacheKey);
 
             if (!string.IsNullOrEmpty(cachedResponse))
             {
@@ -50,18 +50,19 @@ namespace ShopWebAPI.Cache
 
             var executedContext = await next();
 
-            if(executedContext.Result is OkObjectResult okObjectResult)
+            if (executedContext.Result is OkObjectResult okObjectResult)
             {
-                await cacheService.CacheResponseAsynk(cacheKey, okObjectResult.Value, TimeSpan.FromSeconds(_timeToLiveSeconds));
+                await cacheService.CacheResponseAsync(cacheKey, okObjectResult.Value, TimeSpan.FromSeconds(_timeToLiveSeconds));
             }
         }
 
-        private static string GenerateCacheKeyFromRequest(HttpRequest httpRequest)
+        private static string GenerateCacheKeyFromRequest(HttpRequest request)
         {
             var keyBuilder = new StringBuilder();
-            keyBuilder.Append($"{httpRequest.Path}");
 
-            foreach(var (key, value) in httpRequest.Query.OrderBy(x => x.Key))
+            keyBuilder.Append($"{request.Path}");
+
+            foreach (var (key, value) in request.Query.OrderBy(x => x.Key))
             {
                 keyBuilder.Append($"|{key}-{value}");
             }

@@ -15,20 +15,22 @@ namespace ShopWebAPI.Services
             _distributedCache = distributedCache;
         }
 
-        public async Task CacheResponseAsynk(string cahedKey, object response, TimeSpan timeLive)
+        public async Task CacheResponseAsync(string cacheKey, object response, TimeSpan timeTimeLive)
         {
             if (response == null)
+            {
                 return;
+            }
 
             var serializedResponse = JsonConvert.SerializeObject(response);
 
-            await _distributedCache.SetStringAsync(cahedKey, serializedResponse, new DistributedCacheEntryOptions
+            await _distributedCache.SetStringAsync(cacheKey, serializedResponse, new DistributedCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = timeLive
+                AbsoluteExpirationRelativeToNow = timeTimeLive
             });
         }
 
-        public async Task<string> GetCacheResponseAsynk(string cacheKey)
+        public async Task<string> GetCachedResponseAsync(string cacheKey)
         {
             var cachedResponse = await _distributedCache.GetStringAsync(cacheKey);
             return string.IsNullOrEmpty(cachedResponse) ? null : cachedResponse;

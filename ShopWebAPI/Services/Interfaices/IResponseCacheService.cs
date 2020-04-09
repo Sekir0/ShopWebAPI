@@ -7,8 +7,8 @@ namespace ShopWebAPI.Services.Interfaices
 {
     public interface IResponseCacheService
     {
-        Task CacheResponseAsynk(string cahedKey, object response, TimeSpan timeLive);
+        Task CacheResponseAsync(string cacheKey, object response, TimeSpan timeTimeLive);
 
-        Task<string> GetCacheResponseAsynk(string cacheKey);
+        Task<string> GetCachedResponseAsync(string cacheKey);
     }
 }
