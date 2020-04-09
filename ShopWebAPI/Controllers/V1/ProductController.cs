@@ -11,6 +11,7 @@ using ShopWebAPI.Contracts.V1.Requests;
 using ShopWebAPI.Contracts.V1.Responses;
 using ShopWebAPI.Services.Interfaices;
 using ShopWebAPI.Extensions;
+using ShopWebAPI.Cache;
 using AutoMapper;
 
 namespace ShopWebAPI.Controllers.V1
@@ -27,7 +28,7 @@ namespace ShopWebAPI.Controllers.V1
             _mapper = mapper;
         }
 
-        
+        [CachedAtribute(600)]
         [HttpGet(ApiRoutes.Products.GetAll)]
         public async Task<IActionResult> GetAllAsynk()
         {
@@ -35,6 +36,7 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(_mapper.Map<List<ProductResponse>>(products));
         }
 
+        [CachedAtribute(600)]
         [HttpGet(ApiRoutes.Products.GetById)]
         public async Task<IActionResult> GetAsynk([FromRoute]Guid productId)
         {
