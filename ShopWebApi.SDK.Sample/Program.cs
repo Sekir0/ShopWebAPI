@@ -1,5 +1,6 @@
 ﻿using Refit;
 using System.Threading.Tasks;
+using ShopWebApi.Contracts.V1.Responses.Pagination;
 using ShopWebAPI.Contracts.V1.Requests;
 
 namespace ShopWebApi.SDK.Sample
@@ -28,7 +29,7 @@ namespace ShopWebApi.SDK.Sample
                 Password = "Qwer!234"
             });
 
-            cashedToken = loginResponse.Content.Token;
+            cashedToken = loginResponse.Content.Data.Token;
 
             var allProduts = await shopWebApi.GetAllAsynk();
 
@@ -42,9 +43,9 @@ namespace ShopWebApi.SDK.Sample
                 Categorys = new[] {"SDK"}
             });
 
-            var getByIdProduct = await shopWebApi.GetAsynk(createdProduct.Content.Id);
+            var getByIdProduct = await shopWebApi.GetAsynk(createdProduct.Content.Data.Id);
 
-            var updateProduct = await shopWebApi.UpdateAsynk(createdProduct.Content.Id, new UpdateProductRequest 
+            var updateProduct = await shopWebApi.UpdateAsynk(createdProduct.Content.Data.Id, new UpdateProductRequest 
             {
                 Name = "UpdatedSDKProduct",
                 Description = "Test Update method",
@@ -53,7 +54,7 @@ namespace ShopWebApi.SDK.Sample
                 Url = "Some updated url"
             });
 
-            var deleteProduct = await shopWebApi.DeleteAsynk(createdProduct.Content.Id);
+            var deleteProduct = await shopWebApi.DeleteAsynk(createdProduct.Content.Data.Id);
         }
     }
 }

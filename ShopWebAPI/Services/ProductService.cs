@@ -32,9 +32,16 @@ namespace ShopWebAPI.Services
             return await _dataContext.Products.Include(x => x.Categorys).SingleOrDefaultAsync(x => x.Id == productId);
         }
 
-        public async Task<List<Product>> GetProductsAsynk()
+        public async Task<List<Product>> GetProductsAsynk(PaginationFilter paginationFilter = null)
         {
-            return await _dataContext.Products.Include(x => x.Categorys).ToListAsync();
+            if (paginationFilter == null)
+            {
+                return await _dataContext.Products.Include(x => x.Categorys).ToListAsync();
+            }
+
+            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+            return await _dataContext.Products.Include(x => x.Categorys)
+                .Skip(skip).Take(paginationFilter.PageSize).ToListAsync();
         }
 
         public async Task<bool> UpdateProductAsynk(Product updateProduct)

@@ -44,7 +44,7 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(_mapper.Map<CategoryResponse>(category));
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPost(ApiRoutes.Categorys.Create)]
         public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
@@ -65,7 +65,7 @@ namespace ShopWebAPI.Controllers.V1
             return Created(locationUrl, _mapper.Map<CategoryResponse>(newCategory));
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpDelete(ApiRoutes.Categorys.Delete)]
         public async Task<IActionResult> Delete([FromRoute] string categoryName)

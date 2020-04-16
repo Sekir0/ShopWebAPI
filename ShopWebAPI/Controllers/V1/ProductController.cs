@@ -13,28 +13,42 @@ using ShopWebAPI.Services.Interfaices;
 using ShopWebAPI.Extensions;
 using ShopWebAPI.Cache;
 using AutoMapper;
+using ShopWebApi.Contracts.V1.Requests.Pagination;
+using ShopWebApi.Contracts.V1.Responses.Pagination;
+using ShopWebAPI.Helpers;
 
 namespace ShopWebAPI.Controllers.V1
 {
-    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
-        
-        public ProductController(IProductService productService, IMapper mapper)
+        private readonly IUriService _uriService;
+
+        public ProductController(IProductService productService, IMapper mapper, IUriService uriService)
         {
             _productService = productService;
             _mapper = mapper;
+            _uriService = uriService;
         }
 
         
         [HttpGet(ApiRoutes.Products.GetAll)]
         //[Cached(600)]
-        public async Task<IActionResult> GetAllAsynk()
+        public async Task<IActionResult> GetAllAsynk([FromQuery]PaginationQuery paginationQuery)
         {
-            var products = await _productService.GetProductsAsynk();
-            return Ok(_mapper.Map<List<ProductResponse>>(products));
+            var pagination = _mapper.Map<PaginationFilter>(paginationQuery);
+            var posts = await _productService.GetProductsAsynk(pagination);
+            var productResponse = _mapper.Map<List<ProductResponse>>(posts);
+
+            if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
+            {
+                return Ok(new PagedResponse<ProductResponse>(productResponse));
+            }
+
+            var paginationResponse = PaginationHelpers.CreatePaginatedResponse(_uriService, pagination, productResponse);
+            return Ok(paginationResponse);
         }
 
         [HttpGet(ApiRoutes.Products.GetById)]
@@ -46,10 +60,10 @@ namespace ShopWebAPI.Controllers.V1
             if (product == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<ProductResponse>(product));
+            return Ok(new Response<ProductResponse>(_mapper.Map<ProductResponse>(product)));
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPut(ApiRoutes.Products.Update)]
         public async Task<IActionResult> UpdateAsynk([FromRoute]Guid productId, [FromBody] UpdateProductRequest request)
@@ -71,13 +85,13 @@ namespace ShopWebAPI.Controllers.V1
             var update = await _productService.UpdateProductAsynk(product);
 
             if(update)
-                return Ok(_mapper.Map<ProductResponse>(product));
+                return Ok(new Response<ProductResponse>(_mapper.Map<ProductResponse>(product)));
 
             return NotFound();
 
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpDelete(ApiRoutes.Products.Delete)]
         public async Task<IActionResult> Delete([FromRoute]Guid productId)
@@ -97,7 +111,7 @@ namespace ShopWebAPI.Controllers.V1
             return NotFound();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPost(ApiRoutes.Products.Create)]
         public async Task<IActionResult> CreateProductAsynk([FromBody] CreateProductRequest productRequest)
@@ -117,10 +131,8 @@ namespace ShopWebAPI.Controllers.V1
 
             await _productService.CreateProdutAsynk(product);
 
-            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseUrl + "/" + ApiRoutes.Products.GetById.Replace("{postId}", product.Id.ToString());
-
-            return Created(locationUrl, _mapper.Map<ProductResponse>(product));
+            var locationUri = _uriService.GetProductUri(product.Id.ToString());
+            return Created(locationUri, new Response<ProductResponse>(_mapper.Map<ProductResponse>(product)));
         }  
     }
 }

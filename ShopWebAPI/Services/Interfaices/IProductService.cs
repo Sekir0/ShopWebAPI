@@ -7,7 +7,7 @@ namespace ShopWebAPI.Services.Interfaices
 {
     public interface IProductService
     {
-        Task<List<Product>> GetProductsAsynk();
+        Task<List<Product>> GetProductsAsynk(PaginationFilter paginationFilter = null);
         Task<Product> GetProductByIdAsynk(Guid productId);
         Task<bool> UpdateProductAsynk(Product updateProduct);
         Task<bool> DeleteProductAsynk(Guid productId);

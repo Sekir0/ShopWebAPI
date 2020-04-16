@@ -11,7 +11,7 @@ using ShopWebAPI.Services;
 
 namespace ShopWebAPI.Configurations
 {
-    public class CacheInstaller : IInstaller
+    public class CacheConfig : IInstaller
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
