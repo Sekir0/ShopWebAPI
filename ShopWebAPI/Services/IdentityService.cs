@@ -219,9 +219,11 @@ namespace ShopWebAPI.Services
 
             try
             {
-                var tokenValidationParameters = _tokenValidationParameters.Clone();
+                var principal = tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
+                /*var tokenValidationParameters = _tokenValidationParameters.Clone();
                 tokenValidationParameters.ValidateLifetime = false;
-                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);*/
+
                 if (!IsJwtWithValidSequrityAlgorithm(validatedToken))
                 {
                     return null;

@@ -18,7 +18,8 @@ namespace ShopWebAPI.Configurations
             {
                 options.AddPolicy("MustWorkForAdmin", policy =>
                 {
-                    policy.AddRequirements(new WorksForCompanyRequirement(/*DomainName*/"sekiro.com"));
+                    //domain name
+                    policy.AddRequirements(new WorksForCompanyRequirement("sekiro.com"));
                 });
             });
             services.AddSingleton<IAuthorizationHandler, WorksForCompanyHandler>();

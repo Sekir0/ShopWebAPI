@@ -19,7 +19,7 @@ using ShopWebAPI.Helpers;
 
 namespace ShopWebAPI.Controllers.V1
 {
-    //[Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -35,7 +35,7 @@ namespace ShopWebAPI.Controllers.V1
 
         
         [HttpGet(ApiRoutes.Products.GetAll)]
-        //[Cached(600)]
+        [Cached(600)]
         public async Task<IActionResult> GetAllAsynk([FromQuery]PaginationQuery paginationQuery)
         {
             var pagination = _mapper.Map<PaginationFilter>(paginationQuery);
@@ -52,7 +52,7 @@ namespace ShopWebAPI.Controllers.V1
         }
 
         [HttpGet(ApiRoutes.Products.GetById)]
-        //[Cached(600)]
+        [Cached(600)]
         public async Task<IActionResult> GetAsynk([FromRoute]Guid productId)
         {
             var product = await _productService.GetProductByIdAsynk(productId);
