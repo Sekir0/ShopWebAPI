@@ -51,7 +51,7 @@ namespace ShopWebApi.IntegrationTests
         {
             var response = await TestClient.PostAsJsonAsync(ApiRoutes.Identity.Register, new UserRegistrationRequest
             {
-                Email = "PP@sekiro.com",
+                Email = "PPPP@sekiro.com",
                 Password = "Qwer!234"
             });
 
