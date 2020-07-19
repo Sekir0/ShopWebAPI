@@ -1,4 +1,5 @@
-﻿using ShopWebAPI.Contracts.V1.Responses.Categorys;
+﻿using ShopWebApi.Contracts.V1.Responses.Cart;
+using ShopWebAPI.Contracts.V1.Responses.Categorys;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace ShopWebAPI.Contracts.V1.Responses
         public double Price { get; set; }
         public string Url { get; set; }
         public string UserId { get; set; }
+
         public IEnumerable<CategoryResponse> Categorys { get; set; }
     }
 }

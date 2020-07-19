@@ -20,6 +20,6 @@ namespace ShopWebAPI.Data
 
             builder.Entity<ProductCategory>().Ignore(xx => xx.Product).HasKey(x => new { x.ProductId, x.CategoryName });
         }
-
+        public DbSet<Cart> Carts { get; set; }
     }
 }
