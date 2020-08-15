@@ -1,7 +1,7 @@
 ﻿using ShopWebApi.Contracts.V1.Requests.Pagination;
 using ShopWebApi.Contracts.V1.Responses.Pagination;
 using ShopWebAPI.DAL.Domain;
-using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.BL.Services.Interfaices;
 using System.Collections.Generic;
 using System.Linq;
 

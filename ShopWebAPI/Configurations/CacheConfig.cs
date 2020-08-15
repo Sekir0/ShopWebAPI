@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShopWebAPI.Configurations.Interfaices;
 using ShopWebAPI.Cache;
-using ShopWebAPI.Services.Interfaices;
-using ShopWebAPI.Services;
+using ShopWebAPI.BL.Services.Interfaices;
+using ShopWebAPI.BL.Services;
 
 namespace ShopWebAPI.Configurations
 {

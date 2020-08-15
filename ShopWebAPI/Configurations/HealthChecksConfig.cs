@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShopWebAPI.Configurations.Interfaices;
-using ShopWebAPI.Data;
+using ShopWebAPI.DAL;
 
 namespace ShopWebAPI.Configurations
 {

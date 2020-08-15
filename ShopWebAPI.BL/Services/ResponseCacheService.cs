@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.BL.Services.Interfaices;
 
-namespace ShopWebAPI.Services
+namespace ShopWebAPI.BL.Services
 {
     public class ResponseCacheService : IResponseCacheService
     {

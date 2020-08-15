@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
-using ShopWebAPI.Data;
-using ShopWebAPI.Services;
-using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.BL.Services;
+using ShopWebAPI.BL.Services.Interfaices;
 using ShopWebAPI.Configurations.Interfaices;
+using ShopWebAPI.DAL;
 
 namespace ShopWebAPI.Configurations
 {
@@ -15,7 +15,7 @@ namespace ShopWebAPI.Configurations
         {
             services.AddDbContext<DataContext>(options =>
               options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection")));
+                configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("ShopWebAPI")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();

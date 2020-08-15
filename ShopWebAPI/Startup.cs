@@ -28,6 +28,14 @@ namespace ShopWebAPI
         {
             services.InstallServicesInAssembly(Configuration);
             services.AddAutoMapper(typeof(Startup));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolisy", builder => builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,8 +44,6 @@ namespace ShopWebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
 
             app.UseHealthChecks("/health", new HealthCheckOptions
             {

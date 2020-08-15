@@ -1,7 +1,7 @@
 ﻿using ShopWebApi.Contracts.V1.Requests.Pagination;
 using System;
 
-namespace ShopWebAPI.Services.Interfaices
+namespace ShopWebAPI.BL.Services.Interfaices
 {
     public interface IUriService
     {

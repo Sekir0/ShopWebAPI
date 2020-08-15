@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.BL.Services.Interfaices;
 using ShopWebAPI.Contracts;
 using ShopWebAPI.Contracts.V1.Requests;
 using ShopWebAPI.Contracts.V1.Responses;

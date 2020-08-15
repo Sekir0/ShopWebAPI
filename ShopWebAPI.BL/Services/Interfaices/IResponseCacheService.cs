@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopWebAPI.Services.Interfaices
+namespace ShopWebAPI.BL.Services.Interfaices
 {
     public interface IResponseCacheService
     {

@@ -9,13 +9,12 @@ using ShopWebAPI.Contracts;
 using ShopWebAPI.Contracts.V1.Requests.Categorys;
 using ShopWebAPI.Contracts.V1.Responses.Categorys;
 using ShopWebAPI.DAL.Domain;
-using ShopWebAPI.Extensions;
-using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.BL.Extensions;
+using ShopWebAPI.BL.Services.Interfaices;
 
 
 namespace ShopWebAPI.Controllers.V1
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoryController : Controller
     {
         private readonly IProductService _productService;
@@ -46,6 +45,7 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(_mapper.Map<CategoryResponse>(category));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPost(ApiRoutes.Categorys.Create)]
@@ -67,6 +67,7 @@ namespace ShopWebAPI.Controllers.V1
             return Created(locationUrl, _mapper.Map<CategoryResponse>(newCategory));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpDelete(ApiRoutes.Categorys.Delete)]

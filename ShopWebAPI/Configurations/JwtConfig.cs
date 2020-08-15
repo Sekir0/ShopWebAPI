@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using ShopWebAPI.DAL.Options;
 using ShopWebAPI.Configurations.Interfaices;
-using ShopWebAPI.Authorization;
+using ShopWebAPI.BL.Authorization;
 
 namespace ShopWebAPI.Configurations
 {

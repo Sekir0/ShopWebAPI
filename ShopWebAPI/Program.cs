@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ShopWebAPI.Data;
+using ShopWebAPI.DAL;
 
 namespace ShopWebAPI
 {

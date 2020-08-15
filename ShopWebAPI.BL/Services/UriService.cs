@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using ShopWebApi.Contracts.V1.Requests.Pagination;
 using ShopWebAPI.Contracts;
-using ShopWebAPI.Services.Interfaices;
+using ShopWebAPI.BL.Services.Interfaices;
 using System;
 
 
-namespace ShopWebAPI.Services
+namespace ShopWebAPI.BL.Services
 {
     public class UriService : IUriService
     {

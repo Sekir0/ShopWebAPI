@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using ShopWebAPI.Services.Interfaices;
-using ShopWebAPI.Services;
+using ShopWebAPI.BL.Services.Interfaices;
+using ShopWebAPI.BL.Services;
 
 namespace ShopWebAPI.Cache
 {

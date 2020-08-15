@@ -9,8 +9,8 @@ using ShopWebAPI.DAL.Domain;
 using ShopWebAPI.Contracts;
 using ShopWebAPI.Contracts.V1.Requests;
 using ShopWebAPI.Contracts.V1.Responses;
-using ShopWebAPI.Services.Interfaices;
-using ShopWebAPI.Extensions;
+using ShopWebAPI.BL.Services.Interfaices;
+using ShopWebAPI.BL.Extensions;
 using ShopWebAPI.Cache;
 using AutoMapper;
 using ShopWebApi.Contracts.V1.Requests.Pagination;
@@ -19,7 +19,6 @@ using ShopWebAPI.Helpers;
 
 namespace ShopWebAPI.Controllers.V1
 {
-    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -33,7 +32,6 @@ namespace ShopWebAPI.Controllers.V1
             _uriService = uriService;
         }
 
-        
         [HttpGet(ApiRoutes.Products.GetAll)]
         [Cached(600)]
         public async Task<IActionResult> GetAllAsynk([FromQuery]PaginationQuery paginationQuery)
@@ -63,6 +61,7 @@ namespace ShopWebAPI.Controllers.V1
             return Ok(new Response<ProductResponse>(_mapper.Map<ProductResponse>(product)));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPut(ApiRoutes.Products.Update)]
@@ -82,15 +81,16 @@ namespace ShopWebAPI.Controllers.V1
             product.Url = request.Url;
             product.Price = request.Price;
 
-            var update = await _productService.UpdateProductAsynk(product);
+            var updated = await _productService.UpdateProductAsynk(product);
 
-            if(update)
+            if(updated)
                 return Ok(new Response<ProductResponse>(_mapper.Map<ProductResponse>(product)));
 
             return NotFound();
 
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpDelete(ApiRoutes.Products.Delete)]
@@ -100,7 +100,7 @@ namespace ShopWebAPI.Controllers.V1
 
             if (!userOwnProduct)
             {
-                return BadRequest(new { error = "You do not have access to this product." });
+                return BadRequest(new { error = "You don't have access to do this." });
             }
 
             var delete = await _productService.DeleteProductAsynk(productId);
@@ -111,6 +111,7 @@ namespace ShopWebAPI.Controllers.V1
             return NotFound();
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[Authorize(Roles = "Admin")]
         [Authorize(Policy = "MustWorkForAdmin")]
         [HttpPost(ApiRoutes.Products.Create)]

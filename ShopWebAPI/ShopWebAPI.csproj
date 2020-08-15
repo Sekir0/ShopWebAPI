@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShopWebAPI.BL\ShopWebAPI.BL.csproj" />
     <ProjectReference Include="..\ShopWebApi.Contracts\ShopWebApi.Contracts.csproj" />
     <ProjectReference Include="..\ShopWebAPI.DAL\ShopWebAPI.DAL.csproj" />
   </ItemGroup>
